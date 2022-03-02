@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ object.name }}{% endblock title %}
+
+{% block content %}
+
+    {% if request.user.position in object.access.all %}
+        <a class="btn btn-danger my-3" href="{% url 'training' object.department.slug %}" role="button"><i class="bx bx-left-arrow-alt"></i> Назад</a>
+        <div class="card radius-10 w-100">
+            <div class="card-body p-5">
+                {% autoescape off %}
+                    <h2 class="text-center">{{ object.name }}</h2>
+                    <p>{{ object.text }}</p>
+                {% endautoescape %}
+
+                {% if images %}
+                    <div class="text-center">
+                        {% for image_object in images %}
+                            <h5>{{ image_object.description }}</h5>
+                            <img src="{{ image_object.image.url }}" alt="" class="py-3">
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if videos %}
+                    <div class="text-center">
+                        {% for video_object in videos %}
+                            <h5>{{ video_object.description }}</h5>
+                            <video id="instructionVideo" class="py-3" width="50%" height="auto" controls controlsList="nodownload">
+                                <source src="{{ video_object.video.url }}" type="video/mp4">
+                            </video>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                {% if pdfs %}
+                    <div class="text-center">
+                        {% for pdf_object in pdfs %}
+                            <h5>{{ pdf_object.description }}</h5>
+                            <iframe src="{{ pdf_object.pdf.url }}" width="100%" height="auto"></iframe>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    {% else %}
+        <p class="text-center"><i class='bx bxs-lock'></i> Доступ запрещён</p>
+    {% endif %}
+
+{% endblock content %}

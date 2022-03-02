@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Подача на увольнение{% endblock title %}
+
+{% block content %}
+
+<div class="row mb-5">
+    {% if request.user.position in boss_permission.permission.all %}
+        <div class="col-md-2 col-sm-12"></div>
+        <div class="col-md-8 col-sm-12">
+            <h2 class="mb-4 text-center"><b>Подачи на увольнение</b></h2>
+            {% if object_list %}
+                {% for dismissal in object_list %}
+                    <div class="card p-3 pt-4 border-secondary">
+                        <h4>{{ dismissal.name }}</h4>
+                        {% autoescape off %}
+                            <p>{{ dismissal.text }}</p>
+                        {% endautoescape %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center"><i class='bx bx-confused'></i> Похоже, тут пока ничего нет</p>
+            {% endif %}
+        </div>
+        <div class="col-md-2 col-sm-12"></div>
+    {% else %}
+        <p class="text-center"><i class='bx bxs-lock'></i> Доступ запрещён</p>
+    {% endif %}
+</div>
+
+{% endblock content %}

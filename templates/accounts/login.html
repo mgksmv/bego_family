@@ -1,0 +1,32 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<head>
+    {% include 'imports.html' %}
+
+    <title>BEGO Family | Вход</title>
+</head> 
+
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+        <div class="card my-5">
+            <div class="card-body text-center">
+                <img src="{% static 'images/logo-img.png' %}" alt="" style="width: 230px; height: auto;">
+                <form method="POST">
+                    <div class='text-center mt-5'>
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <h2 class="mb-3">Вход</h2>
+                            {{ form|crispy }}
+                        </fieldset>
+                        <div class="form-group mt-3">
+                            <button class="btn btn-primary" type="submit"><i class="bx bx-log-in"></i>  Войти</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-4"></div>
+</div>

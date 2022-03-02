@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ object.name }}{% endblock title %}
+
+{% block content %}
+
+    {% if request.user.position in object.access.all %}
+        <a class="btn btn-danger my-3" href="{{ object.get_url }}" role="button"><i class="bx bx-left-arrow-alt"></i> Назад</a>
+        <div class="card radius-10 w-100">
+            <div class="card-body p-5">
+                {% autoescape off %}
+                    <h2 class="text-center">{{ object.name }}</h2>
+                    <p>{{ object.text }}</p>
+                {% endautoescape %}
+
+                {% if videos %}
+                    <div class="text-center">
+                        {% for video_object in videos %}
+                            <video id="instructionVideo" width="50%" height="auto" controls controlsList="nodownload">
+                                <source src="{{ video_object.video.url }}" type="video/mp4">
+                            </video>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="text-center">
+                    <a class="btn btn-warning mt-3" href="{% url 'traineeship' object.department.slug %}" role="button"><i class="bx bx-menu"></i>
+                        Все уроки
+                    </a>
+                    {% if object.prev_url %}
+                        <a class="btn btn-primary mt-3" href="{% url 'traineeship' object.department.slug %}{{ object.prev_url.slug }}/"
+                        role="button">
+                        <i class='bx bxs-chevron-left'></i> Предыдущий урок</a>
+                    {% endif %}
+    
+                    {% if object.next_url %}
+                        <a class="btn btn-primary mt-3" href="{% url 'traineeship' object.department.slug %}{{ object.next_url.slug }}/"
+                        role="button">
+                        <i class='bx bxs-chevron-right'></i> Следующий урок</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p class="text-center"><i class='bx bxs-lock'></i> Доступ запрещён</p>
+    {% endif %}
+
+{% endblock content %}

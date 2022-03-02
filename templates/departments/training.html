@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Обучение {{ department.name }}{% endblock title %}
+
+{% block content %}
+
+<div class="row mb-5">
+    <div class="col-md-2 col-sm-12"></div>
+    <div class="col-md-8 col-sm-12">
+        <h2 class="mb-4 text-center"><b>Обучение подразделения {{ department.name }}</b></h2>
+        {% if object_list %}
+            {% for training in object_list %}
+                {% if request.user.position in training.access.all %}
+                    <div class="card p-3 mb-3 border-secondary">
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <img width="50%" height="auto" src="{% static 'images/doc-item.png' %}">
+                            </div>
+                            <div class="col-md-9">
+                                <h4>{{ training.name }}</h4>
+                                <a class="mt-4 btn btn-primary" href="{% url 'training_detail' department.slug training.slug %}" role="button">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p class="text-center"><i class='bx bx-confused'></i> Похоже, тут пока ничего нет</p>
+        {% endif %}
+    </div>
+    <div class="col-md-2 col-sm-12"></div>
+</div>
+
+{% endblock content %}

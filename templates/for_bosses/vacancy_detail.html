@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ object.position }}{% endblock title %}
+
+{% block content %}
+
+    {% if request.user.position in boss_permission.permission.all %}
+        <div class="card radius-10 w-100">
+            <div class="card-body p-5">
+                {% autoescape off %}
+                    <h2 class="text-center">{{ object.position }}</h2>
+                    <p>{{ object.text }}</p>
+                {% endautoescape %}
+            </div>
+        </div>
+    {% else %}
+        <p class="text-center"><i class='bx bxs-lock'></i> Доступ запрещён</p>
+    {% endif %}
+
+{% endblock content %}

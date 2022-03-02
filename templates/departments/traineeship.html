@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Стажировка {{ department }}{% endblock title %}
+
+{% block content %}
+
+<div class="row mb-5">
+    <div class="col-md-2 col-sm-12"></div>
+    <div class="col-md-8 col-sm-12">
+        <h2 class="mb-4 text-center"><b>Стажировка в подразделении {{ department }}</b></h2>
+        {% if object_list %}
+            {% for post in object_list %}
+                <div class="card p-3 mb-3 border-secondary">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <img width="50%" height="auto" src="{{ post.img.url }}">
+                        </div>
+                        <div class="col-md-9">
+                            {% if post.day %}
+                                <p class="mb-1"><i class='bx bx-calendar'></i> День {{ post.day }}</p>
+                            {% endif %}
+                            <h4>{{ post.name }}</h4>
+                            <a class="mt-3 btn btn-primary" href="{% url 'traineeship_detail' department.slug post.slug %}" role="button">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center"><i class='bx bx-confused'></i> Похоже, тут пока ничего нет</p>
+        {% endif %}
+    </div>
+    <div class="col-md-2 col-sm-12"></div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<head>
+    {% include 'imports.html' %}
+
+    <title>BEGO Family | Зайти обратно</title>
+</head> 
+
+<div class="text-center mt-5">
+    <h2>Вы вышли из аккаунта</h2>
+    <a class="btn btn-primary mt-3" href="{% url 'login' %}">Зайти обратно</a>
+</div>

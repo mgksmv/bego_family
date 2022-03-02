@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <head>
+        <title>Профиль</title>
+    </head>
+
+    <div class="text-center">
+        <h1>{{ account.first_name }} {{ account.last_name }}</h1>
+        <h5>{{ account.position }}</h5>
+        <img src="{{ account.profile_pic.url }}" alt="Фото" style="width: 150px; height: 150px;">
+    </div>
+
+{% endblock content %}

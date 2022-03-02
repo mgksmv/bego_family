@@ -1,0 +1,395 @@
+{% load static %}
+
+<!doctype html>
+<html lang="ru">
+
+<head>
+	{% block head %}{% include 'imports.html' %}{% endblock head %}
+
+	<title>{% block title %}BEGO Family{% endblock title %}</title>
+</head>
+
+<body>
+	<!--wrapper-->
+	<div class="wrapper">
+	 <!--start header wrapper-->	
+	  <div class="header-wrapper">
+		<!--start header -->
+		<header>
+			<div class="topbar d-flex align-items-center">
+				<nav class="navbar navbar-expand">
+					<div class="topbar-logo-header">
+						<div class="">
+							<a href="{% url 'home' %}"><img src="{% static 'images/logo-icon.png' %}" class="logo-icon logo-text" alt="logo icon"></a>
+						</div>
+					</div>
+					<div class="mobile-toggle-menu"><i class='bx bx-menu'></i></div>
+					<div class="search-bar flex-grow-1">
+						<div class="position-relative search-bar-box">
+							<form action="{% url 'search' %}" method="get">
+								<div class="input-group w-100">
+									<input name="keyword" type="text" class="form-control search-control" placeholder="Искать..."> <span class="position-absolute top-50 search-show translate-middle-y"><i class='bx bx-search'></i></span>
+									<div class="input-group-append">
+										<button class="btn btn-primary" type="submit">
+											<i class='bx bx-search' ></i>
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<!-- ЛОМАЕТСЯ КОД, ЕСЛИ УДАЛИТЬ ЭТУ СТРОКУ (НЕ УДАЛЯТЬ ЭТУ СТРОКУ) -->
+					<div class="header-notifications-list header-message-list"></div>
+					<!-- // ЛОМАЕТСЯ КОД, ЕСЛИ УДАЛИТЬ ЭТУ СТРОКУ (НЕ УДАЛЯТЬ ЭТУ СТРОКУ) -->
+					
+					{% if request.user.is_authenticated %}
+                    <div class="user-box dropdown">
+                        <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ request.user.profile_pic.url }}" class="user-img" alt="">
+                            <div class="user-info ps-3">
+                                <p class="user-name mb-0">{{ request.user.get_full_name }}</p>
+                                <p class="designattion mb-0">{{ request.user.position }}</p>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'profile' request.user.id %}"><i
+                                        class="bx bx-user"></i><span>Профиль</span></a>
+                            </li>
+                            {% if request.user.is_admin %}
+                                <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i
+                                            class='bx bx-home-circle'></i><span>Админ панель</span></a>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <div class="dropdown-divider mb-0"></div>
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}"><i
+                                        class='bx bx-log-out-circle'></i><span>Выйти</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    {% endif %}
+				</nav>
+			</div>
+		</header>
+		<!--end header -->
+		<!--navigation-->
+		<div class="nav-container">
+			<div class="mobile-topbar-header">
+				<div class="">
+					<a href="{% url 'home' %}"><img src="{% static 'images/logo-icon.png' %}" class="logo-icon logo-text" alt="logo icon"></a>
+				</div>
+				<div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
+				</div>
+			</div>
+			<nav class="topbar-nav">
+				<ul class="metismenu" id="menu">
+					<li id="menu-inner-items-1">
+						<button class="btn btn-light">
+							<div class="parent-icon"><i class='bx bx-book-bookmark'></i>
+							</div>
+							<div class="menu-title">История</div>
+						</button>
+						<ul class="ul-open">
+							{% if bego_history %}
+								{% for object in bego_history %}
+									<li>
+										<a href="{% url 'history' object.slug %}">
+											<i class="bx bx-right-arrow-alt"></i>{{ object.name }}
+										</a>
+									</li>
+								{% endfor %}
+							{% else %}
+								<li>
+									<p class="text-center pt-2">(тут пока пусто)</p>
+								</li>
+							{% endif %}
+						</ul>
+					</li>
+					<li id="menu-inner-items-2">
+						<button class="btn btn-light">
+							<div class="parent-icon"><i class="bx bx-line-chart"></i>
+							</div>
+							<div class="menu-title">Миссия BEGO</div>
+						</button>
+						<ul class="ul-open">
+							{% if bego_mission %}
+								{% for object in bego_mission %}
+									<li>
+										<a href="{% url 'mission' object.slug %}">
+											<i class="bx bx-right-arrow-alt"></i>{{ object.name }}
+										</a>
+									</li>
+								{% endfor %}
+							{% else %}
+								<li>
+									<p class="text-center pt-2">(тут пока пусто)</p>
+								</li>
+							{% endif %}
+						</ul>
+					</li>
+					<li id="menu-inner-items-3">
+						<button class="btn btn-light">
+							<div class="parent-icon"><i class="bx bx-category"></i>
+							</div>
+							<div class="menu-title">Орг. структуры</div>
+						</button>
+						<ul class="ul-open">
+							{% if org_structure %}
+								{% for object in org_structure %}
+									<li>
+										<a href="{% url 'org_structure' object.slug %}">
+											<i class="bx bx-right-arrow-alt"></i>{{ object.name }}
+										</a>
+									</li>
+								{% endfor %}
+							{% else %}
+								<li>
+									<p class="text-center pt-2">(тут пока пусто)</p>
+								</li>
+							{% endif %}
+						</ul>
+					</li>
+					<li id="menu-inner-items-4">
+						<button class="btn btn-light">
+							<div class="parent-icon"><i class="bx bx-file"></i>
+							</div>
+							<div class="menu-title">Общие правила</div>
+						</button>
+						<ul class="ul-open">
+							{% if request.user.position in boss_permission.permission.all %}
+								<li><a class="has-arrow" href="javascript:;"><i class="bx bxs-user-detail"></i>Для руководителей</a>
+									<ul>
+										<li>
+											<a href="{% url 'vacancies' %}" class="inner-text">
+												<i class="bx bxs-right-arrow-circle"></i>Вакансии
+											</a>
+										</li>
+										<li>
+											<a href="{% url 'dismissals' %}" class="inner-text">
+												<i class="bx bxs-right-arrow-circle"></i>Подача на увольнение
+											</a>
+										</li>
+									</ul>
+								</li>
+							{% endif %}
+
+							<li><a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Штрафы</a>
+								<ul>
+									{% if penalties %}
+										{% for object in penalties %}
+											<li>
+												<a href="{% url 'penalty' object.slug %}" class="inner-text">
+													<i class="bx bxs-right-arrow-circle"></i>{{ object.name }}
+												</a>
+											</li>
+										{% endfor %}
+									{% else %}
+										<li>
+											<p class="text-center pt-2">(тут пока пусто)</p>
+										</li>
+									{% endif %}
+								</ul>
+							</li>
+
+							<li><a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Бонусы</a>
+								<ul>
+									{% if bonuses %}
+										{% for object in bonuses %}
+											<li>
+												<a href="{% url 'bonus' object.slug %}" class="inner-text">
+													<i class="bx bxs-right-arrow-circle"></i>{{ object.name }}
+												</a>
+											</li>
+										{% endfor %}
+									{% else %}
+										<li>
+											<p class="text-center pt-2">(тут пока пусто)</p>
+										</li>
+									{% endif %}
+								</ul>
+							</li>
+
+							{% if reglaments %}
+								{% for object in reglaments %}
+									<li>
+										<a href="{% url 'reglament' object.slug %}">
+											<i class="bx bx-right-arrow-alt"></i>{{ object.name }}
+										</a>
+									</li>
+								{% endfor %}
+							{% else %}
+								<li>
+									<p class="text-center pt-2">(тут пока пусто)</p>
+								</li>
+							{% endif %}
+						</ul>
+					</li>
+					<li id="menu-inner-items-5">
+						<button class="btn btn-light">
+							<div class="parent-icon"><i class="bx bx-buildings"></i>
+							</div>
+							<div class="menu-title">Подразделения</div>
+						</button>
+						<ul class="ul-open">
+							{% if departments %}
+								{% for object in departments %}
+									<li><a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>{{ object.name }}</a>
+										<ul>
+											<li>
+												{% for presentation in presentations %}
+													{% if presentation.department.slug == object.slug %}
+														{% comment %} <a href="{% url 'presentation' object.slug presentation.pk %}">
+															<i class="bx bxs-right-arrow-circle"></i>{{ presentation.name }}
+														</a> {% endcomment %}
+														<a href="{{ presentation.file.url }}" target="_blank">
+															<i class="bx bxs-right-arrow-circle"></i>{{ presentation.name }}
+														</a>
+													{% endif %}
+												{% endfor %}
+											</li>
+											<li>
+												<a href="{% url 'employees' object.slug %}" class="inner-text">
+													<i class="bx bxs-right-arrow-circle"></i>Сотрудники
+												</a>
+											</li>
+											<li>
+												<a href="{% url 'position_instructions' object.slug %}" class="inner-text">
+													<i class="bx bxs-right-arrow-circle"></i>Должностные инструкции
+												</a>
+											</li>
+											<li>
+												<a href="{% url 'job_instructions' object.slug %}" class="inner-text">
+													<i class="bx bxs-right-arrow-circle"></i>Инструкция по работе
+												</a>
+											</li>
+											<li>
+												<a href="{% url 'traineeship' object.slug %}" class="inner-text">
+													<i class="bx bxs-right-arrow-circle"></i>Стажировка
+												</a>
+											</li>
+											<li>
+												<a href="{% url 'training' object.slug %}" class="inner-text">
+													<i class="bx bxs-right-arrow-circle"></i>Обучение
+												</a>
+											</li>
+											<li>
+												<a href="{% url 'levelup' object.slug %}" class="inner-text">
+													<i class="bx bxs-right-arrow-circle"></i>Повышение квалификации
+												</a>
+											</li>
+										</ul>
+									</li>
+								{% endfor %}
+							{% else %}
+								<li>
+									<p class="text-center pt-2">(тут пока пусто)</p>
+								</li>
+							{% endif %}
+						</ul>
+					</li>
+					<li id="menu-inner-items-6">
+						<button class="btn btn-light">
+							<div class="parent-icon icon-color-6"> <i class="bx bx-donate-blood"></i>
+							</div>
+							<div class="menu-title">Соц. пакет</div>
+						</button>
+						<ul class="ul-open">
+							{% if soc_packages %}
+								{% for object in soc_packages %}
+									<li>
+										<a href="{% url 'soc_package_detail' object.slug %}">
+											<i class="bx bx-right-arrow-alt"></i>{{ object.name }}
+										</a>
+									</li>
+								{% endfor %}
+							{% else %}
+								<li>
+									<p class="text-center pt-2">(тут пока пусто)</p>
+								</li>
+							{% endif %}
+						</ul>
+					</li>
+					<li id="menu-inner-items-7">
+						<button class="btn btn-light">
+							<div class="parent-icon"><i class='bx bx-cool'></i>
+							</div>
+							<div class="menu-title">Внутр. жизнь</div>
+						</button>
+						<ul class="ul-open">
+							<li> <a href="{% url 'gallery' %}"><i class="bx bx-right-arrow-alt"></i>Фотогалерея</a>
+							</li>
+							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Книга рекордов</a>
+							</li>
+							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Лучшие сотрудники</a>
+							</li>
+							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Видео</a>
+							</li>
+							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Календарь событий</a>
+							</li>
+							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Конкурсы</a>
+							</li>
+							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>День рождения сотрудников по месяцам</a>
+							</li>
+							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Традиции</a>
+							</li>
+							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Номинации</a>
+							</li>
+							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Мероприятия</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<!--end navigation-->
+	   </div>
+	   <!--end header wrapper-->
+		<!--start page wrapper -->
+		<div class="page-wrapper">
+			<div class="page-content">
+				{% block content %}{% endblock content %}
+			</div>
+		</div>
+		</div>
+		<!--end page wrapper -->
+		<!--start overlay-->
+		<div class="overlay toggle-icon"></div>
+		<!--end overlay-->
+		<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+		<!--End Back To Top Button-->
+		<footer class="page-footer">
+			<p class="mb-0">© {% now 'Y' %}. BEGO Family.</p>
+		</footer>
+	</div>
+	<!--end wrapper-->
+
+	<!-- Bootstrap JS -->
+	<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+	<!-- Plugins -->
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script src="{% static 'plugins/simplebar/js/simplebar.min.js' %}"></script>
+	<script src="{% static 'plugins/metismenu/js/metisMenu.min.js' %}"></script>
+	<script src="{% static 'plugins/perfect-scrollbar/js/perfect-scrollbar.js' %}"></script>
+	<script src="{% static 'plugins/chartjs/js/Chart.min.js' %}"></script>
+	<script src="{% static 'plugins/vectormap/jquery-jvectormap-2.0.2.min.js' %}"></script>
+    <script src="{% static 'plugins/vectormap/jquery-jvectormap-world-mill-en.js' %}"></script>
+	<script src="{% static 'plugins/jquery.easy-pie-chart/jquery.easypiechart.min.js' %}"></script>
+	<script src="{% static 'plugins/sparkline-charts/jquery.sparkline.min.js' %}"></script>
+	<script src="{% static 'plugins/jquery-knob/excanvas.js' %}"></script>
+	<script src="{% static 'plugins/jquery-knob/jquery.knob.js' %}"></script>
+	  <script>
+		  $(function() {
+			  $(".knob").knob();
+		  });
+	  </script>
+	  <script src="{% static 'js/index.js' %}"></script>
+
+	<!-- App JS-->
+	<script src="{% static 'js/app.js' %}"></script>
+</body>
+
+</html>

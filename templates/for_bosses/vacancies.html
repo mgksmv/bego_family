@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Вакансии{% endblock title %}
+
+{% block content %}
+
+<div class="row mb-5">
+    {% if request.user.position in boss_permission.permission.all %}
+        <div class="col-md-2 col-sm-12"></div>
+        <div class="col-md-8 col-sm-12">
+            <h2 class="mb-4 text-center"><b>Открытие вакансии</b></h2>
+            {% if object_list %}
+                {% for vacancy in object_list %}
+                    <div class="card p-3 mb-3 border-secondary">
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <img width="50%" height="auto" src="{{ vacancy.image.url }}">
+                            </div>
+                            <div class="col-md-9">
+                                <h4>{{ vacancy.position }}</h4>
+                                <a class="mt-4 btn btn-primary" href="{{ vacancy.get_vacancy_url }}{{ vacancy.slug }}" role="button">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center"><i class='bx bx-confused'></i> Похоже, тут пока ничего нет</p>
+            {% endif %}
+        </div>
+        <div class="col-md-2 col-sm-12"></div>
+    {% else %}
+        <p class="text-center"><i class='bx bxs-lock'></i> Доступ запрещён</p>
+    {% endif %}
+</div>
+
+{% endblock content %}

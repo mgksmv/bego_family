@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="card radius-10 w-100">
+    <div class="card-body p-5">
+        <h2 class="text-center">Галерея</h2>
+        <div class="row">
+            {% for gallery in object_list %}
+            <div class="col-md-3 text-center mb-5">
+                <a href="{{ gallery.slug }}"><img class="rounded img-thumbnail item" src="{{ gallery.photo.url }}" alt="Превью"></a>
+                <a class="text-center" href="{{ gallery.slug }}"><h5 class="gallery-lector pt-3">{{ gallery.name }}</h5></a>
+                <h6 class="text-center">{{ gallery.text }}</h6>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

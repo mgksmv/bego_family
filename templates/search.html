@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load model_verbose_names %}
+
+{% block title %}Поиск{% endblock title %}
+
+{% block content %}
+
+    <a class="btn btn-danger my-3" href="{% url 'home' %}" role="button"><i class="bx bx-left-arrow-alt"></i> На главную</a>
+
+<div class="row mb-5">
+    <div class="col-md-2 col-sm-12"></div>
+    <div class="col-md-8 col-sm-12">
+        <h2 class="mb-4 text-center"><b>{{ reglament_type }} Результаты поиска {{ department.name }}</b></h2>
+        {% if reglaments %}
+            {% for reglament in reglaments %}
+                {% if request.user.position in reglament.access.all %}
+                    <div class="card p-3 mb-3 border-secondary">
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <img width="50%" height="auto" src="{% static 'images/doc-item.png' %}">
+                            </div>
+                            <div class="col-md-9">
+                                <h6><i class='bx bx-folder-open'></i> Категория: {{ reglament|verbose_name }}</h6>
+                                <h4>{{ reglament.name }}</h4>
+                                <a class="mt-4 btn btn-primary" href="{% url 'reglament' reglament.slug %}" role="button">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p class="text-center"><i class='bx bx-confused'></i> Ничего не найдено</p>
+        {% endif %}
+    </div>
+    <div class="col-md-2 col-sm-12"></div>
+</div>
+
+{% endblock content %}
