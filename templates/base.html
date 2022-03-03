@@ -39,9 +39,9 @@
 						</div>
 					</div>
 
-					<!-- ЛОМАЕТСЯ КОД, ЕСЛИ УДАЛИТЬ ЭТУ СТРОКУ (НЕ УДАЛЯТЬ ЭТУ СТРОКУ) -->
+					<!-- ЛОМАЕТСЯ КОД, ЕСЛИ УДАЛИТЬ ЭТУ СТРОКУ (НЕ УДАЛЯТЬ) -->
 					<div class="header-notifications-list header-message-list"></div>
-					<!-- // ЛОМАЕТСЯ КОД, ЕСЛИ УДАЛИТЬ ЭТУ СТРОКУ (НЕ УДАЛЯТЬ ЭТУ СТРОКУ) -->
+					<!-- // ЛОМАЕТСЯ КОД, ЕСЛИ УДАЛИТЬ ЭТУ СТРОКУ (НЕ УДАЛЯТЬ) -->
 					
 					{% if request.user.is_authenticated %}
                     <div class="user-box dropdown">
@@ -319,26 +319,16 @@
 							<div class="menu-title">Внутр. жизнь</div>
 						</button>
 						<ul class="ul-open">
-							<li> <a href="{% url 'gallery' %}"><i class="bx bx-right-arrow-alt"></i>Фотогалерея</a>
-							</li>
-							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Книга рекордов</a>
-							</li>
-							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Лучшие сотрудники</a>
-							</li>
-							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Видео</a>
-							</li>
-							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Календарь событий</a>
-							</li>
-							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Конкурсы</a>
-							</li>
-							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>День рождения сотрудников по месяцам</a>
-							</li>
-							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Традиции</a>
-							</li>
-							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Номинации</a>
-							</li>
-							<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Мероприятия</a>
-							</li>
+							<li><a href="{% url 'gallery' %}"><i class="bx bx-right-arrow-alt"></i>Фотогалерея</a></li>
+							<li><a href="{% url 'best_employees' %}"><i class="bx bx-right-arrow-alt"></i>Лучшие сотрудники</a></li>
+							<li><a href="{% url 'employee_birthdays' %}"><i class="bx bx-right-arrow-alt"></i>День рождения сотрудников по месяцам</a></li>
+							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Книга рекордов</a></li>
+							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Видео</a></li>
+							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Календарь событий</a></li>
+							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Конкурсы</a></li>
+							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Традиции</a></li>
+							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Номинации</a></li>
+							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Мероприятия</a></li>
 						</ul>
 					</li>
 				</ul>

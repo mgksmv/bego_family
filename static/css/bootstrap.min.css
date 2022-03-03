@@ -4484,6 +4484,10 @@ fieldset:disabled .btn {
 	box-shadow: 0 .3rem .8rem rgba(0,0,0,.12);
 }
 
+.birthday {
+	background-color: rgb(217, 248, 238);
+}
+
 .card>hr {
 	margin-right: 0;
 	margin-left: 0

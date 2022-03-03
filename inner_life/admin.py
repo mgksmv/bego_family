@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Gallery, Image, Video
+from .models import Gallery, Image, Video, BestEmployee
 
 
 class ImageAdmin(admin.StackedInline):
@@ -21,3 +21,11 @@ class GalleryAdmin(admin.ModelAdmin):
 
     class Meta:
         model = Gallery
+
+
+@admin.register(BestEmployee)
+class BestEmployeeAdmin(admin.ModelAdmin):
+    filter_horizontal = ['access']
+
+    class Meta:
+        model = BestEmployee

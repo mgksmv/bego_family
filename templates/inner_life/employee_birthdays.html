@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load subtract_tag %}
+
+{% block title %}Дни рождения сотрудников{% endblock title %}
+
+{% block content %}
+
+<div class="row mb-5">
+    <div class="col-md-2 col-sm-12"></div>
+    <div class="col-md-8 col-sm-12">
+        <h2 class="mb-4 text-center"><b>Ближайшие дни рождения</b></h2>
+        {% if object_list %}
+
+            <h4 class="mb-3 text-center"><b>В этом месяце:</b></h4>
+            {% if birthdays_this_month %}
+                {% for employee in birthdays_this_month %}
+                    <div class="card {% if employee.birth_date.day == today %}birthday{% endif %} p-3 mb-3 border-secondary">
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <img width="70%" height="auto" src="{{ employee.image.url }}">
+                            </div>
+                            <div class="col-md-9">
+                                {% if employee.birth_date.day == today %}
+                                    <h6 class="text-danger">УЖЕ СЕГОДНЯ! Поздравляем именинника!</h6>
+                                {% endif %}
+                                <h4>{{ employee.get_full_name }}</h4>
+                                <p><i class='bx bx-cake'></i> День рождения: {{ employee.birth_date|date:"j F Y" }}</p>
+                                {% if employee.birth_date.day == today %}
+                                    <p>Исполнилось {{ current_year|sub:employee.birth_date.year }} лет/года</p>
+                                {% else %}
+                                    <p>Исполняется {{ current_year|sub:employee.birth_date.year }} лет/года</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center"><i class='bx bx-confused'></i> В этом месяце день рождения никто не празднует</p>
+            {% endif %}
+            
+            <h4 class="mb-3 mt-5 text-center"><b>В следующих месяцах:</b></h4>
+            {% if other_birthdays %}
+                {% for employee in other_birthdays %}
+                    <div class="card p-3 mb-3 border-secondary">
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <img width="70%" height="auto" src="{{ employee.image.url }}">
+                            </div>
+                            <div class="col-md-9">
+                                <h4>{{ employee.get_full_name }}</h4>
+                                <p><i class='bx bx-cake'></i> День рождения: {{ employee.birth_date|date:"j F Y" }}</p>
+                                <p>Исполняется {{ current_year|sub:employee.birth_date.year }} лет/года</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center"><i class='bx bx-confused'></i> В следующих месяцах день рождения никто не празднует</p>
+            {% endif %}
+
+        {% else %}
+            <p class="text-center"><i class='bx bx-confused'></i> Похоже, тут пока ничего нет</p>
+        {% endif %}
+    </div>
+    <div class="col-md-2 col-sm-12"></div>
+</div>
+
+{% endblock content %}

@@ -74,7 +74,14 @@ class Video(models.Model):
         return self.description
 
 
-# class BestEmployees(models.Model):
-#     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
-#     name = models.CharField(max_length=100, verbose_name='Название')
-#     slug = models.SlugField(max_length=100, unique=True, verbose_name='URL')
+class BestEmployee(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
+    text = RichTextUploadingField(blank=True, verbose_name='Описание')
+    access = models.ManyToManyField(Position, blank=True, verbose_name='Уровень доступа')
+
+    class Meta:
+        verbose_name = 'лучший сотрудник'
+        verbose_name_plural = 'Лучшие сотрудники'
+
+    def __str__(self):
+        return self.employee.get_full_name()
