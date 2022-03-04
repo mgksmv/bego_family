@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Gallery, Image, Video, BestEmployee
+from .models import Gallery, Image, Video, BestEmployee, Event
 
 
 class ImageAdmin(admin.StackedInline):
@@ -29,3 +29,15 @@ class BestEmployeeAdmin(admin.ModelAdmin):
 
     class Meta:
         model = BestEmployee
+
+    
+@admin.register(Event)
+class EventsAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+    filter_horizontal = ['access', 'participants']
+    list_display = ['name', 'date', 'department']
+    list_editable = ['date', 'department']
+    list_filter = ['department', 'access']
+
+    class Meta:
+        model = Event

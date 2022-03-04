@@ -7,7 +7,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from ckeditor_uploader.fields import RichTextUploadingField
 
 from accounts.models import Position
-from departments.models import Employee
+from departments.models import Employee, Department
 from config.validators import validate_video
 
 
@@ -85,3 +85,20 @@ class BestEmployee(models.Model):
 
     def __str__(self):
         return self.employee.get_full_name()
+
+
+class Event(models.Model):
+    date = models.DateField(verbose_name='Дата')
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Подразделение')
+    name = models.CharField(max_length=100, verbose_name='Название')
+    text = RichTextUploadingField(blank=True, verbose_name='Описание')
+    participants = models.ManyToManyField(Employee, blank=True, verbose_name='Участники')
+    access = models.ManyToManyField(Position, blank=True, verbose_name='Уровень доступа')
+    slug = models.SlugField(max_length=100, unique=True, verbose_name='URL')
+
+    class Meta:
+        verbose_name = 'мероприятие'
+        verbose_name_plural = 'Мероприятия'
+    
+    def __str__(self):
+        return self.name

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="card radius-10 w-100">
+    <div class="card-body p-5">
+        <h2 class="text-center">Календарь событий</h2>
+        <div class="row p-3">
+            <div class="col-2">
+                <a class="btn btn-primary btn-sm left" href="{% url 'event_calendar' %}?{{ prev_month }}"><i class='bx bxs-chevron-left'></i>Пред. месяц </a>
+            </div>
+            <div class="col-4">
+                <a class="btn btn-outline-primary btn-sm" href="{% url 'event_calendar' %}"><i class='bx bx-calendar-check'></i> В текущий месяц </a>
+            </div>
+            <div class="col-4">
+                <form action="" method="GET">
+                    {{ form }}
+                    <button type="submit" class="btn btn-primary btn-sm">Перейти</button>
+                </form>
+            </div>
+            <div class="col-2">
+                <a class="btn btn-primary btn-sm right" href="{% url 'event_calendar' %}?{{ next_month }}">След. месяц <i class='bx bxs-chevron-right'></i></a>
+            </div>
+        </div>
+        {{ calendar }}
+    </div>
+</div>
+
+{% endblock content %}
