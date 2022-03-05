@@ -4825,6 +4825,14 @@ fieldset:disabled .btn {
 	margin-left: -1px
 }
 
+.page-item a:hover,
+.page-item a:focus,
+.page-item a:active {
+	color: #ffffff !important;
+	text-decoration: none !important;
+	background: #b08f79 !important;
+}
+
 .page-item.active .page-link {
 	z-index: 3;
 	color: #fff;

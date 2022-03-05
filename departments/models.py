@@ -16,6 +16,7 @@ def save(instance, filename):
 class Department(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название')
     positioning = RichTextUploadingField(blank=True, verbose_name='Позиционирование')
+    access = models.ManyToManyField(Position, blank=True, verbose_name='Уровень доступа')
     slug = models.SlugField(max_length=100, unique=True, verbose_name='URL')
 
     class Meta:

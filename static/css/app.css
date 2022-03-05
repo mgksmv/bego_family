@@ -64,13 +64,8 @@ h2, h4 {
 
 
 a {
-
-
 	text-decoration: none;
-
-
 }
-
 
 .wrapper {
 
@@ -5719,7 +5714,7 @@ input::placeholder {
   }
   
 .calendar a {
-	color: #17a2b8;
+	color: #141414;
 }
 
 .month {

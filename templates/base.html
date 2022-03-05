@@ -239,6 +239,11 @@
 									<li><a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>{{ object.name }}</a>
 										<ul>
 											<li>
+												<a href="{% url 'positioning' object.slug %}" class="inner-text">
+													<i class="bx bxs-right-arrow-circle"></i>Позиционирование
+												</a>
+											</li>
+											<li>
 												{% for presentation in presentations %}
 													{% if presentation.department.slug == object.slug %}
 														{% comment %} <a href="{% url 'presentation' object.slug presentation.pk %}">
@@ -324,11 +329,11 @@
 							<li><a href="{% url 'employee_birthdays' %}"><i class="bx bx-right-arrow-alt"></i>День рождения сотрудников по месяцам</a></li>
 							<li><a href="{% url 'event_calendar' %}"><i class="bx bx-right-arrow-alt"></i>Календарь событий</a></li>
 							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Мероприятия</a></li>
-							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Книга рекордов</a></li>
-							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Видео</a></li>
-							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Конкурсы</a></li>
-							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Традиции</a></li>
-							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Номинации</a></li>
+							<li><a href="{% url 'record_book' %}"><i class="bx bx-right-arrow-alt"></i>Книга рекордов</a></li>
+							<li><a href="{% url 'video' %}"><i class="bx bx-right-arrow-alt"></i>Видео</a></li>
+							<li><a href="{% url 'giveaways' %}"><i class="bx bx-right-arrow-alt"></i>Конкурсы</a></li>
+							<li><a href="{% url 'traditions' %}"><i class="bx bx-right-arrow-alt"></i>Традиции</a></li>
+							<li><a href="{% url 'nominations' %}"><i class="bx bx-right-arrow-alt"></i>Номинации</a></li>
 						</ul>
 					</li>
 				</ul>

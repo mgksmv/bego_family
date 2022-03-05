@@ -1,9 +1,10 @@
 from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import SocPackage
 
 
-class SocPackageDetailView(DetailView):
+class SocPackageDetailView(LoginRequiredMixin, DetailView):
     model = SocPackage
     template_name = 'detailview_template.html'
 

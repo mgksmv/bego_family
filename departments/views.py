@@ -150,3 +150,8 @@ class LevelUpDetailView(LoginRequiredMixin, DetailView):
         context['videos'] = VideoLevelUp.objects.filter(parent_model=self.object)
         context['pdfs'] = PDFLevelUp.objects.filter(parent_model=self.object)
         return context
+
+
+class PositioningDetailView(LoginRequiredMixin, DetailView):
+    model = Department
+    template_name = 'departments/positioning.html'

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load model_verbose_names %}
+
+{% block title %}{{ model_name }}{% endblock title %}
+
+{% block content %}
+
+<div class="row mb-5">
+    <div class="col-md-2 col-sm-12"></div>
+    <div class="col-md-8 col-sm-12">
+        <h2 class="mb-4 text-center"><b>{{ model_name }}</b></h2>
+        {% if object_list %}
+            {% for object in object_list %}
+                {% if request.user.position in object.access.all %}
+                    <div class="card p-3 mb-3 border-secondary">
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                {% if object.image %}
+                                    <img width="50%" height="auto" src="{{ object.image.url }}">
+                                {% else %}
+                                    <img width="50%" height="auto" src="{% static 'images/doc-item.png' %}">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-9">
+                                <h4>{{ object.name }}</h4>
+                                <a class="mt-4 btn btn-primary" href="{{ object.get_absolute_url }}" role="button">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p class="text-center"><i class='bx bx-confused'></i> Похоже, тут пока ничего нет</p>
+        {% endif %}
+    </div>
+    <div class="col-md-2 col-sm-12"></div>
+</div>
+
+{% endblock content %}

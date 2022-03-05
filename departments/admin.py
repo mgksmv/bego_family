@@ -95,6 +95,7 @@ class PDFLevelUpAdmin(admin.StackedInline):
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
+    filter_horizontal = ['access']
     inlines = [PresentationAdmin, EmployeeStackedInLine, DepartmentReglamentStackedInLine]
 
     class Meta:

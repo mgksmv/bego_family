@@ -19,19 +19,22 @@ class EventCalendar(HTMLCalendar):
 		month = list(self.itermonthdays3(self.year, self.month))[-1][2]
 		year = list(self.itermonthdays3(self.year, self.month))[-1][0]
 
+		print(month)
+		print(year)
+
 		data = ''
-		
-		if year == datetime.now().year:
-			for event in events_per_day:
-				data += f'<li>{event.name}</li>'
+
+		for event in events_per_day:
+			if event.date.year == year:
+				data += f'<li>{event.get_html_url}</li>'
 
 		if day == datetime.now().day and month == datetime.now().month and year == datetime.now().year:
 			return f'<td class="today"><span class="date"><b>{day}</b> <i class="bx bxs-pin"></i></span><ul> {data} </ul></td>'
 		elif day == self.day:
-			return f'<td class="marked"><span class="date">{day}</span> <span class="text-danger"><i class="bx bxs-down-arrow"></i></span><ul> {data} </ul></td>'
+			return f'<td class="marked"><span class="date"><b>{day}</b></span> <span class="text-danger"><i class="bx bxs-down-arrow"></i></span><ul> {data} </ul></td>'
 		elif day != 0:
 			if len(data) > 0:
-				return f'<td class="marked-event"><span class="date">{day}</span><ul> {data} </ul></td>'
+				return f'<td class="marked-event"><span class="date"><b>{day}</b></span><ul> {data} </ul></td>'
 			return f'<td class="existing-days"><span class="date">{day}</span><ul> {data} </ul></td>'
 
 		return '<td></td>'

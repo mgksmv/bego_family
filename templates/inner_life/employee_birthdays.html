@@ -12,29 +12,31 @@
         <h2 class="mb-4 text-center"><b>Ближайшие дни рождения</b></h2>
         {% if object_list %}
 
-            <h4 class="mb-3 text-center"><b>В этом месяце:</b></h4>
             {% if birthdays_this_month %}
-                {% for employee in birthdays_this_month %}
-                    <div class="card {% if employee.birth_date.day == today %}birthday{% endif %} p-3 mb-3 border-secondary">
-                        <div class="row">
-                            <div class="col-md-3 text-center">
-                                <img width="70%" height="auto" src="{{ employee.image.url }}">
-                            </div>
-                            <div class="col-md-9">
-                                {% if employee.birth_date.day == today %}
-                                    <h6 class="text-danger">УЖЕ СЕГОДНЯ! Поздравляем именинника!</h6>
-                                {% endif %}
-                                <h4>{{ employee.get_full_name }}</h4>
-                                <p><i class='bx bx-cake'></i> День рождения: {{ employee.birth_date|date:"j F Y" }}</p>
-                                {% if employee.birth_date.day == today %}
-                                    <p>Исполнилось {{ current_year|sub:employee.birth_date.year }} лет/года</p>
-                                {% else %}
-                                    <p>Исполняется {{ current_year|sub:employee.birth_date.year }} лет/года</p>
-                                {% endif %}
+                {% if 'page' not in request.get_full_path or 'page=1' in request.get_full_path %}
+                    <h4 class="mb-3 text-center"><b>В этом месяце:</b></h4>
+                    {% for employee in birthdays_this_month %}
+                        <div class="card {% if employee.birth_date.day == today %}birthday{% endif %} p-3 mb-3 border-secondary">
+                            <div class="row">
+                                <div class="col-md-3 text-center">
+                                    <img width="70%" height="auto" src="{{ employee.image.url }}">
+                                </div>
+                                <div class="col-md-9">
+                                    {% if employee.birth_date.day == today %}
+                                        <h6 class="text-danger">УЖЕ СЕГОДНЯ! Поздравляем именинника!</h6>
+                                    {% endif %}
+                                    <h4>{{ employee.get_full_name }}</h4>
+                                    <p><i class='bx bx-cake'></i> День рождения: {{ employee.birth_date|date:"j F Y" }}</p>
+                                    {% if employee.birth_date.day == today %}
+                                        <p>Исполнилось {{ current_year|sub:employee.birth_date.year }} лет/года</p>
+                                    {% else %}
+                                        <p>Исполняется {{ current_year|sub:employee.birth_date.year }} лет/года</p>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                {% endif %} 
             {% else %}
                 <p class="text-center"><i class='bx bx-confused'></i> В этом месяце день рождения никто не празднует</p>
             {% endif %}
@@ -57,6 +59,36 @@
                 {% endfor %}
             {% else %}
                 <p class="text-center"><i class='bx bx-confused'></i> В следующих месяцах день рождения никто не празднует</p>
+            {% endif %}
+
+            {% if is_paginated %}
+                <nav class="mb-5" aria-label="...">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Пред.</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Пред.</a>
+                            </li>
+                        {% endif %}
+                        {% for n in other_birthdays.paginator.page_range %}
+                            <li class="page-item {% if other_birthdays.number == n %}active{% endif %}">
+                                <a class="page-link" href="?page={{ n }}">{{ n }}</a>
+                            </li>
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" tabindex="-1">Пред.</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Пред.</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
             {% endif %}
 
         {% else %}

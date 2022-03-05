@@ -10,11 +10,13 @@ from .views import (
     TrainingListView,
     TrainingDetailView,
     LevelUpListView,
-    LevelUpDetailView
+    LevelUpDetailView,
+    PositioningDetailView
 )
 
 urlpatterns = [
-    path('<department>/presentation/<pk>', PresentationDetailView.as_view(), name='presentation'),
+    path('<department>/presentation/<slug>', PresentationDetailView.as_view(), name='presentation'),
+    path('<slug>/positioning/', PositioningDetailView.as_view(), name='positioning'),
     path('<department>/employees/', EmployeesListView.as_view(), name='employees'),
     path('<department>/position-instructions/', DepartmentReglamentsListView.as_view(), name='position_instructions'),
     path('<department>/position-instructions/<slug>/', DepartmentReglamentsDetailView.as_view(), name='position_instructions_detail'),
