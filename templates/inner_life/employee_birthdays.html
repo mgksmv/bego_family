@@ -11,9 +11,8 @@
     <div class="col-md-8 col-sm-12">
         <h2 class="mb-4 text-center"><b>Ближайшие дни рождения</b></h2>
         {% if object_list %}
-
             {% if birthdays_this_month %}
-                {% if 'page' not in request.get_full_path or 'page=1' in request.get_full_path %}
+                {% if 'page' not in request.get_full_path or request.GET.page == '1' %}
                     <h4 class="mb-3 text-center"><b>В этом месяце:</b></h4>
                     {% for employee in birthdays_this_month %}
                         <div class="card {% if employee.birth_date.day == today %}birthday{% endif %} p-3 mb-3 border-secondary">
@@ -64,6 +63,9 @@
             {% if is_paginated %}
                 <nav class="mb-5" aria-label="...">
                     <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link text-danger" href="?page=1" tabindex="-1">В начало</a>
+                        </li>
                         {% if page_obj.has_previous %}
                             <li class="page-item">
                                 <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Пред.</a>
@@ -73,20 +75,31 @@
                                 <a class="page-link" href="#" tabindex="-1">Пред.</a>
                             </li>
                         {% endif %}
+                        
                         {% for n in other_birthdays.paginator.page_range %}
-                            <li class="page-item {% if other_birthdays.number == n %}active{% endif %}">
-                                <a class="page-link" href="?page={{ n }}">{{ n }}</a>
-                            </li>
+                            {% if other_birthdays.number == n %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="?page={{ n }}">{{ n }}</a>
+                                </li>
+                            {% elif n > other_birthdays.number|add:-5 and n < other_birthdays.number|add:5 %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ n }}">{{ n }}</a>
+                                </li>
+                            {% endif %}
                         {% endfor %}
-                        {% if page_obj.has_next %}
+
+                        {% if page_obj.has_next and page_obj.next_page_number <= other_birthdays.paginator.page_range|length %}
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" tabindex="-1">Пред.</a>
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" tabindex="-1">След.</a>
                             </li>
                         {% else %}
                             <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Пред.</a>
+                                <a class="page-link" href="#" tabindex="-1">След.</a>
                             </li>
                         {% endif %}
+                        <li class="page-item">
+                            <a class="page-link text-success" href="?page={{ other_birthdays.paginator.page_range|length }}" tabindex="-1">В конец</a>
+                        </li>
                     </ul>
                 </nav>
             {% endif %}

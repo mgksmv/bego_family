@@ -1,11 +1,12 @@
 from faker import Faker
 
 from django.core.management.base import BaseCommand
-from departments.models import Employee, Department
+from departments.models import Training, Department
+from accounts.models import Position
 
 
 class Command(BaseCommand):
-    help = 'Заполняет случайными данными модель Employee.'
+    help = 'Заполняет случайными данными модель Training.'
 
     def add_arguments(self, parser):
         parser.add_argument('quantity', action='append', type=int)
@@ -14,11 +15,11 @@ class Command(BaseCommand):
         fake = Faker('ru-ru')
         
         for _ in range(options['quantity'][0]):
-            Employee.objects.create(
+            instance = Training.objects.create(
                 department=Department.objects.get(id=1),
-                first_name=fake.first_name(),
-                last_name=fake.last_name(),
-                bio=fake.paragraph(nb_sentences=5),
-                birth_date=fake.date(),
+                name=fake.first_name(),
+                text=fake.paragraph(nb_sentences=5),
                 slug=fake.lexify(text='??????????'),
             )
+            for position in Position.objects.all():
+                instance.access.add(position)

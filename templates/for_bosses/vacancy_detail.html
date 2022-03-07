@@ -5,6 +5,8 @@
 
 {% block content %}
 
+    <a class="btn btn-danger my-3" href="{{ request.META.HTTP_REFERER }}" role="button"><i class="bx bx-left-arrow-alt"></i> Назад</a>
+
     {% if request.user.position in boss_permission.permission.all %}
         <div class="card radius-10 w-100">
             <div class="card-body p-5">

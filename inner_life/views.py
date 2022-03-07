@@ -67,7 +67,7 @@ class BestEmployeesListView(ListView):
 class EmployeeBirthdays(LoginRequiredMixin, ListView):
     model = Employee
     template_name = 'inner_life/employee_birthdays.html'
-    paginate_by = 2
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -77,10 +77,12 @@ class EmployeeBirthdays(LoginRequiredMixin, ListView):
         birthdays_this_month = Employee.objects.filter(
             birth_date__month=today.month, birth_date__day__gte=today.day
         ).order_by('birth_date__day')
+
         other_birthdays = Employee.objects.filter(
             birth_date__month__gt=today.month,
             birth_date__day__gte=today.day
-        )
+        ).order_by('birth_date__month')
+        
         paginator = Paginator(other_birthdays, self.paginate_by)
         page = self.request.GET.get('page')
 

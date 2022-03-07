@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import (
     Presentation,
@@ -39,6 +40,7 @@ class PresentationDetailView(LoginRequiredMixin, DetailView):
 class EmployeesListView(LoginRequiredMixin, ListView):
     model = Employee
     template_name = 'departments/employees.html'
+    paginate_by = 20
 
     def get_queryset(self):
         self.department = get_object_or_404(Department, slug=self.kwargs['department'])
@@ -46,28 +48,54 @@ class EmployeesListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        paginator = Paginator(self.object_list, self.paginate_by)
+        page = self.request.GET.get('page')
+
+        try:
+            object_list = paginator.page(page)
+        except PageNotAnInteger:
+            object_list = paginator.page(1)
+        except EmptyPage:
+            object_list = paginator.page(paginator.num_pages)
+
         context['department'] = self.department
+        context['object_list'] = object_list
+
         return context
 
 
 class DepartmentReglamentsListView(LoginRequiredMixin, ListView):
     model = DepartmentReglament
     template_name = 'departments/department_reglaments.html'
-
-    def get_queryset(self):
-        self.department = get_object_or_404(Department, slug=self.kwargs['department'])
-        if 'position-instructions' in self.request.path:
-            self.reglament_type = 'Должностные инструкции'
-            self.reglaments = DepartmentReglament.objects.filter(department=self.department, instruction_type='position_instruction')
-        else:
-            self.reglament_type = 'Инструкция по работе'
-            self.reglaments = DepartmentReglament.objects.filter(department=self.department, instruction_type='job_instruction')
-        return self.reglaments
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['department'] = self.department
-        context['reglament_type'] = self.reglament_type
+
+        department = get_object_or_404(Department, slug=self.kwargs['department'])
+
+        if 'position-instructions' in self.request.path:
+            reglament_type = 'Должностные инструкции'
+            reglaments = DepartmentReglament.objects.filter(department=department, instruction_type='position_instruction')
+        else:
+            reglament_type = 'Инструкция по работе'
+            reglaments = DepartmentReglament.objects.filter(department=department, instruction_type='job_instruction')
+
+        paginator = Paginator(reglaments, self.paginate_by)
+        page = self.request.GET.get('page')
+
+        try:
+            reglaments_paginated = paginator.page(page)
+        except PageNotAnInteger:
+            reglaments_paginated = paginator.page(1)
+        except EmptyPage:
+            reglaments_paginated = paginator.page(paginator.num_pages)
+
+        context['department'] = department
+        context['reglament_type'] = reglament_type
+        context['object_list'] = reglaments_paginated
+
         return context
 
 
@@ -79,6 +107,7 @@ class DepartmentReglamentsDetailView(LoginRequiredMixin, DetailView):
 class TraineeshipListView(LoginRequiredMixin, ListView):
     model = Traineeship
     template_name = 'departments/traineeship.html'
+    paginate_by = 20
 
     def get_queryset(self):
         self.department = get_object_or_404(Department, slug=self.kwargs['department'])
@@ -86,6 +115,18 @@ class TraineeshipListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        paginator = Paginator(self.object_list, self.paginate_by)
+        page = self.request.GET.get('page')
+
+        try:
+            traineeship_paginated = paginator.page(page)
+        except PageNotAnInteger:
+            traineeship_paginated = paginator.page(1)
+        except EmptyPage:
+            traineeship_paginated = paginator.page(paginator.num_pages)
+
+        context['object_list'] = traineeship_paginated
         context['department'] = self.department
         return context
 
@@ -103,6 +144,7 @@ class TraineeshipDetailView(LoginRequiredMixin, DetailView):
 class TrainingListView(LoginRequiredMixin, ListView):
     model = Training
     template_name = 'departments/training.html'
+    paginate_by = 20
 
     def get_queryset(self):
         self.department = get_object_or_404(Department, slug=self.kwargs['department'])
@@ -110,6 +152,18 @@ class TrainingListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        paginator = Paginator(self.object_list, self.paginate_by)
+        page = self.request.GET.get('page')
+
+        try:
+            training_paginated = paginator.page(page)
+        except PageNotAnInteger:
+            training_paginated = paginator.page(1)
+        except EmptyPage:
+            training_paginated = paginator.page(paginator.num_pages)
+
+        context['object_list'] = training_paginated
         context['department'] = self.department
         return context
 
@@ -129,6 +183,7 @@ class TrainingDetailView(LoginRequiredMixin, DetailView):
 class LevelUpListView(LoginRequiredMixin, ListView):
     model = LevelUp
     template_name = 'departments/levelup.html'
+    paginate_by = 20
 
     def get_queryset(self):
         self.department = get_object_or_404(Department, slug=self.kwargs['department'])
@@ -136,6 +191,18 @@ class LevelUpListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        paginator = Paginator(self.object_list, self.paginate_by)
+        page = self.request.GET.get('page')
+
+        try:
+            levelup_paginated = paginator.page(page)
+        except PageNotAnInteger:
+            levelup_paginated = paginator.page(1)
+        except EmptyPage:
+            levelup_paginated = paginator.page(paginator.num_pages)
+
+        context['object_list'] = levelup_paginated
         context['department'] = self.department
         return context
 

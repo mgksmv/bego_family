@@ -220,10 +220,6 @@
 										</a>
 									</li>
 								{% endfor %}
-							{% else %}
-								<li>
-									<p class="text-center pt-2">(тут пока пусто)</p>
-								</li>
 							{% endif %}
 						</ul>
 					</li>
@@ -249,7 +245,7 @@
 														{% comment %} <a href="{% url 'presentation' object.slug presentation.pk %}">
 															<i class="bx bxs-right-arrow-circle"></i>{{ presentation.name }}
 														</a> {% endcomment %}
-														<a href="{{ presentation.file.url }}" target="_blank">
+														<a href="{{ presentation.file.url }}" class="inner-text" target="_blank">
 															<i class="bx bxs-right-arrow-circle"></i>{{ presentation.name }}
 														</a>
 													{% endif %}
