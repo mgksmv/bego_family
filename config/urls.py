@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import HomeTemplateView, search, calendar_view
+from .views import HomeTemplateView, search, SearchListView
 
 urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
@@ -14,8 +14,7 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
 
     path('', HomeTemplateView.as_view(), name='home'),
-    path('search/', search, name='search'),
-    path('calendar/<int:year>/<str:month>/', calendar_view, name='calendar'),
+    path('search/', SearchListView.as_view(), name='search'),
 
     path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html', redirect_authenticated_user=True),
          name='login'),

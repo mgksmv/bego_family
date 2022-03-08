@@ -1,12 +1,13 @@
-from django.views.generic import TemplateView
+from itertools import chain
+
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-import calendar, locale
-from calendar import HTMLCalendar
-
-from regulations.models import Reglament
+from regulations.models import Reglament, Penalty, Bonus
+from bego.models import History, Mission, OrgStructure
 
 
 class HomeTemplateView(LoginRequiredMixin, TemplateView):
@@ -22,35 +23,52 @@ def search(request):
         if query:
             reglaments = Reglament.objects.filter(name__icontains=query)
 
-    return render(request, 'search.html', {'reglaments': reglaments})
+    return render(request, 'search.html', {'reglaments_search': reglaments})
 
 
-@login_required
-def calendar_view(request, year, month):
-    month = month.capitalize()
-    print(list(calendar.month_name))
-    month_number = list(calendar.month_name).index(month)
-    month_number = int(month_number)
+class SearchListView(LoginRequiredMixin, ListView):
+    template_name = 'search.html'
+    paginate_by = 20
 
-    # locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
+    def get_queryset(self):
+        reglaments = None
+        history = None
+        mission = None
+        org_structure = None
+        penalty = None
+        bonus = None
 
-    # cal = HTMLCalendar().formatmonth(year, month_number)
+        if 'keyword' in self.request.GET and self.request.GET.get('keyword'):
+            query = self.request.GET.get('keyword')
+            if query:
+                reglaments = Reglament.objects.filter(name__icontains=query)
+                history = History.objects.filter(name__icontains=query)
+                mission = Mission.objects.filter(name__icontains=query)
+                org_structure = OrgStructure.objects.filter(name__icontains=query)
+                penalty = Penalty.objects.filter(name__icontains=query)
+                bonus = Bonus.objects.filter(name__icontains=query)
 
-    class CustomHTMLCal(calendar.HTMLCalendar):
-        cssclasses = ["mon text-bold", "tue", "wed", "thu", "fri", "sat", "sun text-danger"]
-        cssclass_month_head = "text-center month-head"
-        cssclass_month = "text-center month"
-        cssclass_year = "text-italic lead"
+            object_list = list(chain(
+                reglaments, history, mission, org_structure, penalty, bonus
+            ))
+            return object_list
+        return None
 
-        def formatday(self, day, events):
-            events_per_day = events.filter(start_time__day=day)
-            d = ""
-            for event in events_per_day:
-                d += f"<li> {event.get_html_url} </li>"
-            if day != 0:
-                return f"<td><span class='date'>{day}</span><ul> {d} </ul></td>"
-            return "<td></td>"
+    def get_context_data(self, **kwargs):
+        if self.get_queryset():
+            context = super().get_context_data(**kwargs)
 
-    cal = CustomHTMLCal().formatmonth(year, month_number)
+            paginator = Paginator(self.get_queryset(), self.paginate_by)
+            page = self.request.GET.get('page')
 
-    return render(request, 'calendar.html', {'cal': cal})
+            try:
+                object_list_paginated = paginator.page(page)
+            except PageNotAnInteger:
+                object_list_paginated = paginator.page(1)
+            except EmptyPage:
+                object_list_paginated = paginator.page(paginator.num_pages)
+
+            print(object_list_paginated.has_next())
+
+            context['object_list'] = object_list_paginated
+            return context

@@ -19,9 +19,6 @@ class EventCalendar(HTMLCalendar):
 		month = list(self.itermonthdays3(self.year, self.month))[-1][2]
 		year = list(self.itermonthdays3(self.year, self.month))[-1][0]
 
-		print(month)
-		print(year)
-
 		data = ''
 
 		for event in events_per_day:
