@@ -132,9 +132,22 @@ class EventDetailView(LoginRequiredMixin, DetailView):
 class RecordBookListView(LoginRequiredMixin, ListView):
     model = RecordBook
     template_name = 'listview_template.html'
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        paginator = Paginator(self.object_list, self.paginate_by)
+        page = self.request.GET.get('page')
+
+        try:
+            object_list_paginated = paginator.page(page)
+        except PageNotAnInteger:
+            object_list_paginated = paginator.page(1)
+        except EmptyPage:
+            object_list_paginated = paginator.page(paginator.num_pages)
+
+        context['object_list'] = object_list_paginated
         context['model_name'] = self.model._meta.verbose_name_plural
         return context
 
@@ -147,9 +160,22 @@ class RecordBookDetailView(LoginRequiredMixin, DetailView):
 class VideoListView(LoginRequiredMixin, ListView):
     model = Video
     template_name = 'listview_template.html'
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        paginator = Paginator(self.object_list, self.paginate_by)
+        page = self.request.GET.get('page')
+
+        try:
+            object_list_paginated = paginator.page(page)
+        except PageNotAnInteger:
+            object_list_paginated = paginator.page(1)
+        except EmptyPage:
+            object_list_paginated = paginator.page(paginator.num_pages)
+
+        context['object_list'] = object_list_paginated
         context['model_name'] = self.model._meta.verbose_name_plural
         return context
 
@@ -162,9 +188,22 @@ class VideoDetailView(LoginRequiredMixin, DetailView):
 class GiveawaysListView(LoginRequiredMixin, ListView):
     model = Giveaway
     template_name = 'listview_template.html'
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        paginator = Paginator(self.object_list, self.paginate_by)
+        page = self.request.GET.get('page')
+
+        try:
+            object_list_paginated = paginator.page(page)
+        except PageNotAnInteger:
+            object_list_paginated = paginator.page(1)
+        except EmptyPage:
+            object_list_paginated = paginator.page(paginator.num_pages)
+
+        context['object_list'] = object_list_paginated
         context['model_name'] = self.model._meta.verbose_name_plural
         return context
 
@@ -177,9 +216,22 @@ class GiveawaysDetailView(LoginRequiredMixin, DetailView):
 class TraditionsListView(LoginRequiredMixin, ListView):
     model = Tradition
     template_name = 'listview_template.html'
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        paginator = Paginator(self.object_list, self.paginate_by)
+        page = self.request.GET.get('page')
+
+        try:
+            object_list_paginated = paginator.page(page)
+        except PageNotAnInteger:
+            object_list_paginated = paginator.page(1)
+        except EmptyPage:
+            object_list_paginated = paginator.page(paginator.num_pages)
+
+        context['object_list'] = object_list_paginated
         context['model_name'] = self.model._meta.verbose_name_plural
         return context
 
@@ -192,9 +244,22 @@ class TraditionsDetailView(LoginRequiredMixin, DetailView):
 class NominationsListView(LoginRequiredMixin, ListView):
     model = Nomination
     template_name = 'listview_template.html'
+    paginate_by = 20
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        paginator = Paginator(self.object_list, self.paginate_by)
+        page = self.request.GET.get('page')
+
+        try:
+            object_list_paginated = paginator.page(page)
+        except PageNotAnInteger:
+            object_list_paginated = paginator.page(1)
+        except EmptyPage:
+            object_list_paginated = paginator.page(paginator.num_pages)
+
+        context['object_list'] = object_list_paginated
         context['model_name'] = self.model._meta.verbose_name_plural
         return context
 
