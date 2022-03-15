@@ -505,6 +505,83 @@ a {
 	display: block;
 }
 
+
+
+
+
+#menu-inner-items-4-sub li {
+	list-style: none;
+	position: relative;
+}
+
+#menu-inner-items-4-sub li li {
+	list-style: none;  
+	position: relative;
+	background-color: #fff;
+	left: 220px;  
+	top: -38px;  
+}
+
+#menu-inner-items-4-sub li a {  
+	display: block;  
+} 
+
+#menu-inner-items-4-sub ul {  
+	position: absolute;  
+	display: none;
+	top: 38px;  
+}
+
+#menu-inner-items-4-sub li:hover ul {  
+	display: block; 
+}
+
+#menu-inner-items-4-sub li:hover .object-name {  
+	background-color: #b08f79;
+	color: #fff;
+}
+
+
+
+
+
+#menu-inner-items-5 li {
+	list-style: none;
+	position: relative;
+}
+
+#menu-inner-items-5 li li {
+	list-style: none;  
+	position: relative;
+	background-color: #fff;
+	left: 220px;  
+	top: -38px;  
+}
+
+#menu-inner-items-5 ul li a {  
+	display: block;  
+} 
+
+#menu-inner-items-5 ul ul {  
+	position: absolute;  
+	display: none;
+	top: 38px;  
+}
+
+#menu-inner-items-5 ul li:hover ul {  
+	display: block; 
+}
+
+#menu-inner-items-5 ul li:hover .object-name {  
+	background-color: #b08f79;
+	color: #fff;
+}
+
+.icon-right {
+	position: absolute;
+  	right: 0px;
+}
+
 @media (min-width: 1281px) {
 
 	.topbar-nav .metismenu {
@@ -5651,10 +5728,6 @@ input::placeholder {
 
 }
 
-.inner-text {
-	font-weight: 400;
-}
-
 .gal {
     float: left;
     position: relative;
@@ -5715,6 +5788,10 @@ input::placeholder {
   
 .calendar a {
 	color: #141414;
+}
+
+.calendar a:hover {
+	color: #ff1c1c;
 }
 
 .month {

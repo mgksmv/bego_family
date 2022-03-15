@@ -97,7 +97,7 @@
 								{% for object in bego_history %}
 									<li>
 										<a href="{% url 'history' object.slug %}">
-											<i class="bx bx-right-arrow-alt"></i>{{ object.name }}
+											</i>{{ object.name }}
 										</a>
 									</li>
 								{% endfor %}
@@ -119,7 +119,7 @@
 								{% for object in bego_mission %}
 									<li>
 										<a href="{% url 'mission' object.slug %}">
-											<i class="bx bx-right-arrow-alt"></i>{{ object.name }}
+											</i>{{ object.name }}
 										</a>
 									</li>
 								{% endfor %}
@@ -141,7 +141,7 @@
 								{% for object in org_structure %}
 									<li>
 										<a href="{% url 'org_structure' object.slug %}">
-											<i class="bx bx-right-arrow-alt"></i>{{ object.name }}
+											</i>{{ object.name }}
 										</a>
 									</li>
 								{% endfor %}
@@ -159,64 +159,65 @@
 							<div class="menu-title">Общие правила</div>
 						</button>
 						<ul class="ul-open">
-							{% if request.user.position in boss_permission.permission.all %}
-								<li><a class="has-arrow" href="javascript:;"><i class="bx bxs-user-detail"></i>Для руководителей</a>
+							<ul id="menu-inner-items-4-sub">
+								{% if request.user.position in boss_permission.permission.all %}
+									<li><a href="javascript:;">Для руководителей <i class="icon-right bx bx-right-arrow-alt"></i></a>
+										<ul>
+											<li>
+												<a href="{% url 'vacancies' %}">
+													Вакансии
+												</a>
+											</li>
+											<li>
+												<a href="{% url 'dismissals' %}">
+													Подача на увольнение
+												</a>
+											</li>
+										</ul>
+									</li>
+								{% endif %}
+
+								<li><a href="javascript:;"></i>Штрафы <i class="icon-right bx bx-right-arrow-alt"></i></a>
 									<ul>
-										<li>
-											<a href="{% url 'vacancies' %}" class="inner-text">
-												<i class="bx bxs-right-arrow-circle"></i>Вакансии
-											</a>
-										</li>
-										<li>
-											<a href="{% url 'dismissals' %}" class="inner-text">
-												<i class="bx bxs-right-arrow-circle"></i>Подача на увольнение
-											</a>
-										</li>
+										{% if penalties %}
+											{% for object in penalties %}
+												<li>
+													<a href="{% url 'penalty' object.slug %}">
+														{{ object.name }}
+													</a>
+												</li>
+											{% endfor %}
+										{% else %}
+											<li>
+												<p class="text-center p-2">(тут пока пусто)</p>
+											</li>
+										{% endif %}
 									</ul>
 								</li>
-							{% endif %}
 
-							<li><a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Штрафы</a>
-								<ul>
-									{% if penalties %}
-										{% for object in penalties %}
+								<li><a href="javascript:;"></i>Бонусы <i class="icon-right bx bx-right-arrow-alt"></i></a>
+									<ul>
+										{% if bonuses %}
+											{% for object in bonuses %}
+												<li>
+													<a href="{% url 'bonus' object.slug %}">
+														{{ object.name }}
+													</a>
+												</li>
+											{% endfor %}
+										{% else %}
 											<li>
-												<a href="{% url 'penalty' object.slug %}" class="inner-text">
-													<i class="bx bxs-right-arrow-circle"></i>{{ object.name }}
-												</a>
+												<p class="text-center p-2">(тут пока пусто)</p>
 											</li>
-										{% endfor %}
-									{% else %}
-										<li>
-											<p class="text-center pt-2">(тут пока пусто)</p>
-										</li>
-									{% endif %}
-								</ul>
-							</li>
-
-							<li><a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Бонусы</a>
-								<ul>
-									{% if bonuses %}
-										{% for object in bonuses %}
-											<li>
-												<a href="{% url 'bonus' object.slug %}" class="inner-text">
-													<i class="bx bxs-right-arrow-circle"></i>{{ object.name }}
-												</a>
-											</li>
-										{% endfor %}
-									{% else %}
-										<li>
-											<p class="text-center pt-2">(тут пока пусто)</p>
-										</li>
-									{% endif %}
-								</ul>
-							</li>
-
+										{% endif %}
+									</ul>
+								</li>
+							</ul>
 							{% if reglaments %}
 								{% for object in reglaments %}
 									<li>
 										<a href="{% url 'reglament' object.slug %}">
-											<i class="bx bx-right-arrow-alt"></i>{{ object.name }}
+											</i>{{ object.name }}
 										</a>
 									</li>
 								{% endfor %}
@@ -232,53 +233,53 @@
 						<ul class="ul-open">
 							{% if departments %}
 								{% for object in departments %}
-									<li><a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>{{ object.name }}</a>
+									<li><a class="object-name" href="javascript:;">{{ object.name }} <i class="icon-right bx bx-right-arrow-alt"></i></a>
 										<ul>
 											<li>
-												<a href="{% url 'positioning' object.slug %}" class="inner-text">
-													<i class="bx bxs-right-arrow-circle"></i>Позиционирование
+												<a href="{% url 'positioning' object.slug %}">
+													Позиционирование
 												</a>
 											</li>
 											<li>
 												{% for presentation in presentations %}
 													{% if presentation.department.slug == object.slug %}
 														{% comment %} <a href="{% url 'presentation' object.slug presentation.pk %}">
-															<i class="bx bxs-right-arrow-circle"></i>{{ presentation.name }}
+															{{ presentation.name }}
 														</a> {% endcomment %}
-														<a href="{{ presentation.file.url }}" class="inner-text" target="_blank">
-															<i class="bx bxs-right-arrow-circle"></i>{{ presentation.name }}
+														<a href="{{ presentation.file.url }}" target="_blank">
+															{{ presentation.name }}
 														</a>
 													{% endif %}
 												{% endfor %}
 											</li>
 											<li>
-												<a href="{% url 'employees' object.slug %}" class="inner-text">
-													<i class="bx bxs-right-arrow-circle"></i>Сотрудники
+												<a href="{% url 'employees' object.slug %}">
+													Сотрудники
 												</a>
 											</li>
 											<li>
-												<a href="{% url 'position_instructions' object.slug %}" class="inner-text">
-													<i class="bx bxs-right-arrow-circle"></i>Должностные инструкции
+												<a href="{% url 'position_instructions' object.slug %}">
+													Должностные инструкции
 												</a>
 											</li>
 											<li>
-												<a href="{% url 'job_instructions' object.slug %}" class="inner-text">
-													<i class="bx bxs-right-arrow-circle"></i>Инструкция по работе
+												<a href="{% url 'job_instructions' object.slug %}">
+													Инструкция по работе
 												</a>
 											</li>
 											<li>
-												<a href="{% url 'traineeship' object.slug %}" class="inner-text">
-													<i class="bx bxs-right-arrow-circle"></i>Стажировка
+												<a href="{% url 'traineeship' object.slug %}">
+													Стажировка
 												</a>
 											</li>
 											<li>
-												<a href="{% url 'training' object.slug %}" class="inner-text">
-													<i class="bx bxs-right-arrow-circle"></i>Обучение
+												<a href="{% url 'training' object.slug %}">
+													Обучение
 												</a>
 											</li>
 											<li>
-												<a href="{% url 'levelup' object.slug %}" class="inner-text">
-													<i class="bx bxs-right-arrow-circle"></i>Повышение квалификации
+												<a href="{% url 'levelup' object.slug %}">
+													Повышение квалификации
 												</a>
 											</li>
 										</ul>
@@ -302,7 +303,7 @@
 								{% for object in soc_packages %}
 									<li>
 										<a href="{% url 'soc_package_detail' object.slug %}">
-											<i class="bx bx-right-arrow-alt"></i>{{ object.name }}
+											</i>{{ object.name }}
 										</a>
 									</li>
 								{% endfor %}
@@ -320,16 +321,16 @@
 							<div class="menu-title">Внутр. жизнь</div>
 						</button>
 						<ul class="ul-open">
-							<li><a href="{% url 'gallery' %}"><i class="bx bx-right-arrow-alt"></i>Фотогалерея</a></li>
-							<li><a href="{% url 'best_employees' %}"><i class="bx bx-right-arrow-alt"></i>Лучшие сотрудники</a></li>
-							<li><a href="{% url 'employee_birthdays' %}"><i class="bx bx-right-arrow-alt"></i>День рождения сотрудников по месяцам</a></li>
-							<li><a href="{% url 'event_calendar' %}"><i class="bx bx-right-arrow-alt"></i>Календарь событий</a></li>
-							<li><a href="#"><i class="bx bx-right-arrow-alt"></i>Мероприятия</a></li>
-							<li><a href="{% url 'record_book' %}"><i class="bx bx-right-arrow-alt"></i>Книга рекордов</a></li>
-							<li><a href="{% url 'video' %}"><i class="bx bx-right-arrow-alt"></i>Видео</a></li>
-							<li><a href="{% url 'giveaways' %}"><i class="bx bx-right-arrow-alt"></i>Конкурсы</a></li>
-							<li><a href="{% url 'traditions' %}"><i class="bx bx-right-arrow-alt"></i>Традиции</a></li>
-							<li><a href="{% url 'nominations' %}"><i class="bx bx-right-arrow-alt"></i>Номинации</a></li>
+							<li><a href="{% url 'gallery' %}"></i>Фотогалерея</a></li>
+							<li><a href="{% url 'best_employees' %}"></i>Лучшие сотрудники</a></li>
+							<li><a href="{% url 'employee_birthdays' %}"></i>День рождения сотрудников по месяцам</a></li>
+							<li><a href="{% url 'event_calendar' %}"></i>Календарь событий</a></li>
+							<li><a href="#"></i>Мероприятия</a></li>
+							<li><a href="{% url 'record_book' %}"></i>Книга рекордов</a></li>
+							<li><a href="{% url 'video' %}"></i>Видео</a></li>
+							<li><a href="{% url 'giveaways' %}"></i>Конкурсы</a></li>
+							<li><a href="{% url 'traditions' %}"></i>Традиции</a></li>
+							<li><a href="{% url 'nominations' %}"></i>Номинации</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -381,6 +382,7 @@
 
 	<!-- App JS-->
 	<script src="{% static 'js/app.js' %}"></script>
+	<script src="{% static 'js/onmouseover.js' %}"></script>
 </body>
 
 </html>

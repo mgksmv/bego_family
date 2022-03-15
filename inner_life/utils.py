@@ -26,13 +26,13 @@ class EventCalendar(HTMLCalendar):
 				data += f'<li>{event.get_html_url}</li>'
 
 		if day == datetime.now().day and month == datetime.now().month and year == datetime.now().year:
-			return f'<td class="today"><span class="date"><b>{day}</b> <i class="bx bxs-pin"></i></span><ul> {data} </ul></td>'
+			return f'<td id="day-{day}" class="today" onmouseover="changeBackgroundColorOver({day})" onmouseleave="changeBackgroundColorOutToday({day})"><span class="date"><b>{day}</b> <i class="bx bxs-pin"></i></span><ul> {data} </ul></td>'
 		elif day == self.day:
-			return f'<td class="marked"><span class="date"><b>{day}</b></span> <span class="text-danger"><i class="bx bxs-down-arrow"></i></span><ul> {data} </ul></td>'
+			return f'<td id="day-{day}" class="marked" onmouseover="changeBackgroundColorOver({day})" onmouseleave="changeBackgroundColorOutMarked({day})"><span class="date"><b>{day}</b></span> <span class="text-danger"><i class="bx bxs-down-arrow"></i></span><ul> {data} </ul></td>'
 		elif day != 0:
 			if len(data) > 0:
-				return f'<td class="marked-event"><span class="date"><b>{day}</b></span><ul> {data} </ul></td>'
-			return f'<td class="existing-days"><span class="date">{day}</span><ul> {data} </ul></td>'
+				return f'<td id="day-{day}" class="marked-event" onmouseover="changeBackgroundColorOver({day})" onmouseleave="changeBackgroundColorOutMarkedEvent({day})"><span class="date"><b>{day}</b></span><ul> {data} </ul></td>'
+			return f'<td id="day-{day}" class="existing-days" onmouseover="changeBackgroundColorOver({day})" onmouseleave="changeBackgroundColorOut({day})"><span class="date">{day}</span><ul> {data} </ul></td>'
 
 		return '<td></td>'
 
